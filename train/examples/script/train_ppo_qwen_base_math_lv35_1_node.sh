@@ -1,6 +1,5 @@
 
-HDFS_HOME=TO_BE_DEFINED
-RUN_NAME=Qwen2.5-Math-7B_ppo_from_base_math_lv35
+cd /workspace/home/lab/simpleRL-reason/train/
 
 python3 openrlhf/cli/train_ppo_ray_box.py \
     --ref_num_nodes 1 \
@@ -14,8 +13,8 @@ python3 openrlhf/cli/train_ppo_ray_box.py \
     --vllm_num_engines 2 \
     --vllm_tensor_parallel_size 1 \
     --colocate_actor_ref \
-    --pretrain $HDFS_HOME/model_hub/models--Qwen--Qwen2.5-Math-7B/snapshots/b101308fe89651ea5ce025f25317fea6fc07e96e \
-    --save_path $HDFS_HOME/checkpoints/$RUN_NAME \
+    --pretrain deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B \
+    --save_path /new_data/experiments_rh/simple-rl-trial-0 \
     --micro_train_batch_size 2 \
     --train_batch_size 128 \
     --micro_rollout_batch_size 2 \
@@ -27,7 +26,7 @@ python3 openrlhf/cli/train_ppo_ray_box.py \
     --num_episodes 20 \
     --prompt_max_len 1024 \
     --generate_max_len 3000 \
-    --zero_stage 3 \
+    --zero_stage 2 \
     --bf16 \
     --actor_learning_rate 5e-7 \
     --critic_learning_rate 9e-6 \
@@ -36,11 +35,10 @@ python3 openrlhf/cli/train_ppo_ray_box.py \
     --input_key input \
     --normalize_reward \
     --flash_attn \
-    --adam_offload \
     --gradient_checkpointing \
     --save_steps 4 \
     --load_checkpoint \
-    --use_wandb YOUR_WANDB_KEY \
-    --wandb_run_name $RUN_NAME \
-    --ckpt_path $HDFS_HOME/checkpoints/$RUN_NAME  \
+    --use_wandb ${YOUR_WANDB_KEY} \
+    --wandb_run_name simple-rl-trial-0 \
+    --ckpt_path /new_data/experiments_rh/simple-rl-trial-0  \
     --max_ckpt_num 20000
